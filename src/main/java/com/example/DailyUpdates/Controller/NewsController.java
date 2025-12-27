@@ -1,7 +1,9 @@
 package com.example.DailyUpdates.Controller;
 
 import com.example.DailyUpdates.Service.NewsService;
+import com.example.DailyUpdates.dto.NewsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +15,11 @@ public class NewsController {
     private NewsService newsService;
 
     @GetMapping
-    public ResponseEntity<Object> getNewsByCountry(
+    public ResponseEntity<NewsResponse> getNewsByCountry(
             @RequestParam(value = "country", defaultValue = "us") String countryCode) {
 
-        return newsService.getNewsByCountry(countryCode);
+        NewsResponse response = newsService.getNewsByCountry(countryCode);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/category/{category}")
